@@ -1,0 +1,30 @@
+#!/home/knsd/.nvm/versions/node/v18.12.1/bin/node
+
+let urllib = require("urllib");
+let Phrase = require("m-nsd-palindrome");
+let url = 'https://cdn.learnenough.com/phrases.txt'
+
+async function fetchPalindromes() {
+  let { error, data, response } = await urllib.request(url, { followRedirect: true });
+  let body = data.toString();
+
+  //10.2.1の演習ではない場合のコード
+  body.split('\n').forEach(function (line) {
+    let phrase = new Phrase(line);
+    if (phrase.palindrome()) {
+      console.log('検出されたパリンドローム:', line);
+    }
+  });
+
+  //10.2.1演習の場合のコード
+  /* let lines = body.split('\n');
+  let palindromes = lines.filter(function (line) {
+    phrase = new Phrase(line) //←答え
+    return phrase.palindrome();
+  });
+  palindromes.forEach(function (palindrome) {
+    console.log('検出されたパリンドローム:', palindrome);
+  }); */
+}
+
+fetchPalindromes();

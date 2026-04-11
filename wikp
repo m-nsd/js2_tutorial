@@ -1,0 +1,42 @@
+#!/home/knsd/.nvm/versions/node/v24.14.1/bin/node
+
+// Wikipediaのリンクからパラグラフを取得して脚注番号を取り除く
+
+//console.log( process.argv[0]);//nodeプログラムのパス
+//console.log( process.argv[1]);//nodeに渡すコマンド
+//console.log( process.argv[2]);//引数
+
+if ( !process.argv[2] ) {
+  console.log("引数(URL)がありません");
+  console.log("使い方: wikp <URL>");
+  process.exit(1);//エラー終了させる
+} // 10.3.1演習2
+
+let urllib = require("urllib");
+let url = process.argv[2];
+
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
+async function fetchAndProcessArticle() {
+  let { error, data, response } = await urllib.request(url, { followRedirect: true });
+  let body = data.toString();
+  // DOMをシミュレートする
+  let { document } = (new JSDOM(body)).window;
+
+  // すべてのパラグラフと参照情報を一括で取り出す
+  let paragraphs = document.querySelectorAll("p");
+  let references = document.querySelectorAll(".reference");
+
+  // 参照情報を削除する
+  references.forEach(function(reference) {
+    reference.remove();
+  });
+
+  // すべてのパラグラフを出力する
+  paragraphs.forEach(function(paragraph) {
+    console.log(paragraph.textContent);
+  });
+}
+
+fetchAndProcessArticle();

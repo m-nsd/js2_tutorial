@@ -1,0 +1,18 @@
+#!/home/knsd/.nvm/versions/node/v18.12.1/bin/node
+
+let fs = require("fs");
+let Phrase = require("m-nsd-palindrome");
+
+let text = fs.readFileSync("phrases.txt", "utf-8");
+
+let palindromes = []; //10.1.1演習で追加
+text.split('\n').forEach(function(line) {
+  let phrase = new Phrase(line);
+  if (phrase.palindrome()) {
+    console.log("検出されたパリンドローム: ", line);
+    palindromes.push(line); //10.1.1演習で追加
+  }
+});
+//以下10.1.1演習で追加
+let outfile = palindromes.join('\n');
+fs.writeFileSync('palindromes.txt', outfile);

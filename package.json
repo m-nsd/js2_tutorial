@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "m-nsd-palindrome": "^0.1.1"
+    "jsdom": "^29.0.2",
+    "m-nsd-palindrome": "^0.1.1",
+    "urllib": "^4.9.0"
   }
 }
